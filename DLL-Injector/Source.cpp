@@ -3,7 +3,7 @@
 
 DWORD GetProcId(const char* procName) {
 
-	HWND acWindow = FindWindow(nullptr, "AssaultCube");
+	HWND acWindow = FindWindow(nullptr, procName);
 	
 	DWORD procID;
 	GetWindowThreadProcessId(acWindow, &procID);
@@ -15,7 +15,7 @@ DWORD GetProcId(const char* procName) {
 
 int main() {
 	const char* dllpath = "C:\\game\\Dark Souls III The Ringed City\\Game\\binkw64.dll";
-	const char* procName = "ac_client.exe";
+	const char* procName = "AssaultCube";
 
 	DWORD procID = GetProcId(procName);
 
@@ -27,6 +27,8 @@ int main() {
 		void* spaseForDLLpath = VirtualAllocEx(hProc, nullptr, strlen(dllpath), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 
 		if (spaseForDLLpath) {
+
+			std::cout << "memory allocate at : " << spaseForDLLpath << std::endl;
 
 			WriteProcessMemory(hProc, spaseForDLLpath, dllpath, strlen(dllpath), nullptr );
 
